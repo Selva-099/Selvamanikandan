@@ -44,6 +44,18 @@ void insert_node_into_singly_linked_list(SinglyLinkedList** singly_linked_list, 
     (*singly_linked_list)->tail = node;
 }
 
+void print_singly_linked_list(SinglyLinkedListNode* node, char* sep, FILE* fptr) {
+    while (node) {
+        fprintf(fptr, "%d", node->data);
+
+        node = node->next;
+
+        if (node) {
+            fprintf(fptr, "%s", sep);
+        }
+    }
+}
+
 void free_singly_linked_list(SinglyLinkedListNode* node) {
     while (node) {
         SinglyLinkedListNode* temp = node;
@@ -53,7 +65,7 @@ void free_singly_linked_list(SinglyLinkedListNode* node) {
     }
 }
 
-// Complete the printLinkedList function below.
+// Complete the reverse function below.
 
 /*
  * For your reference:
@@ -64,15 +76,97 @@ void free_singly_linked_list(SinglyLinkedListNode* node) {
  * };
  *
  */
-void printLinkedList(SinglyLinkedListNode* head) {
-        SinglyLinkedListNode* node = head;
-        while(head!=NULL)
-        {
-            printf("%d\n",head->data);
-            head = head->next;
-        }
-
+SinglyLinkedListNode* reverse(SinglyLinkedListNode* head)
+{
+    SinglyLinkedListNode* prev = NULL;
+    SinglyLinkedListNode* current = head;
+    SinglyLinkedListNode* next = NULL;
+    while(current != NULL)
+    {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    head = prev;
+    return head;
 
 }
 
 int main()
+{
+    FILE* fptr = fopen(getenv("OUTPUT_PATH"), "w");
+
+    char* tests_endptr;
+    char* tests_str = readline();
+    int tests = strtol(tests_str, &tests_endptr, 10);
+
+    if (tests_endptr == tests_str || *tests_endptr != '\0') { exit(EXIT_FAILURE); }
+
+    for (int tests_itr = 0; tests_itr < tests; tests_itr++) {
+        SinglyLinkedList* llist = malloc(sizeof(SinglyLinkedList));
+        llist->head = NULL;
+        llist->tail = NULL;
+
+        char* llist_count_endptr;
+        char* llist_count_str = readline();
+        int llist_count = strtol(llist_count_str, &llist_count_endptr, 10);
+
+        if (llist_count_endptr == llist_count_str || *llist_count_endptr != '\0') { exit(EXIT_FAILURE); }
+
+        for (int i = 0; i < llist_count; i++) {
+            char* llist_item_endptr;
+            char* llist_item_str = readline();
+            int llist_item = strtol(llist_item_str, &llist_item_endptr, 10);
+
+            if (llist_item_endptr == llist_item_str || *llist_item_endptr != '\0') { exit(EXIT_FAILURE); }
+
+            insert_node_into_singly_linked_list(&llist, llist_item);
+        }
+
+        SinglyLinkedListNode* llist1 = reverse(llist->head);
+
+        char *sep = " ";
+
+        print_singly_linked_list(llist1, sep, fptr);
+        fprintf(fptr, "\n");
+
+        free_singly_linked_list(llist1);
+    }
+
+    fclose(fptr);
+
+    return 0;
+}
+
+char* readline() {
+    size_t alloc_length = 1024;
+    size_t data_length = 0;
+    char* data = malloc(alloc_length);
+
+    while (true) {
+        char* cursor = data + data_length;
+        char* line = fgets(cursor, alloc_length - data_length, stdin);
+
+        if (!line) { break; }
+
+        data_length += strlen(cursor);
+
+        if (data_length < alloc_length - 1 || data[data_length - 1] == '\n') { break; }
+
+        size_t new_length = alloc_length << 1;
+        data = realloc(data, new_length);
+
+        if (!data) { break; }
+
+        alloc_length = new_length;
+    }
+
+    if (data[data_length - 1] == '\n') {
+        data[data_length - 1] = '\0';
+    }
+
+    data = realloc(data, data_length);
+
+    return data;
+}
