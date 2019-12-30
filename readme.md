@@ -3,4 +3,4 @@
 
 ## Features
 
-### Feature 1: List all tasks
+### Feature 1: Login Credentials
