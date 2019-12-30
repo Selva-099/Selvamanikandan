@@ -3,4 +3,4 @@
 
 ## Features
 
-### Feature 1: Login Credentials
+### Feature 1: Login and Logout
