@@ -1,0 +1,9 @@
+ClassNotFoundException  - class name maybe wrong or jars may not be included
+
+
+SQL command 
+sqlplus system/oracle@13.235.147.120/xe
+
+execute queries
+
+@filePath

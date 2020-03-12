@@ -1,0 +1,19 @@
+echo "# sam" >> README.md
+git init
+git remote add origin https://github.com/Selva-099/sam.git
+git add README.md
+git commit -m "first commit"
+git push -u origin master
+
+git remote add origin https://github.com/Selva-099/sam.git
+git push -u origin master
+
+git remote add origin https://github.com/Selva-099/payrollapp-selva.git
+
+
+echo "# payrollapp-spring-selva" >> README.md
+git init
+git remote add origin https://github.com/csys-fresher-batch-2019/payrollapp-spring-selva.git
+git add README.md
+git commit -m "first commit"
+git push -u origin master
